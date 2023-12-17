@@ -1,2 +1,5 @@
 clipboard~=0.0.4
 django~=5.0
+djangorestframework~=3.14.0
+translators~=5.8.9
+googletrans~=3.0.0
