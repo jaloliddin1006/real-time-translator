@@ -7,44 +7,48 @@ from django.http import JsonResponse
 # import translators as ts
 from googletrans import Translator
 from .models import UsedLanguages
+from django.views.generic.base import TemplateView
 
-def home(request):
+
+def home(request, *args, **kwargs):
     context = {
         "languages": UsedLanguages.objects.all()    
     }
-    return render(request, 'home.html', context)
+    return render(request, 'text-translate.html', context)
 
 
-#### with translators
-# @api_view(['POST'])
-# def translate(request):
-#     if request.method == 'POST':
-#         input = json.loads(request.body.decode('utf-8'))['input']
-#         from_language = json.loads(request.body.decode('utf-8'))['from']
-#         to_language = json.loads(request.body.decode('utf-8'))['to']
-#         if input == '':
-#             content = {'error': 'Empty input!'}
-#             return Response(content, status=status.HTTP_400_BAD_REQUEST)
+def speak_translate(request, *args, **kwargs):
+    context = {
+        "languages": UsedLanguages.objects.all()    
+    }
+    return render(request, 'speak-translate.html', context)
+# class HomePageView(TemplateView):
+#     template_name = 'home.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         print(self.request.GET.get('page'))
+#         page = self.request.GET.get('page')
+#         if page:
+#             context['page'] = page
 #         else:
-#             output = ts.translate_text(
-#                 input, from_language=from_language, to_language=to_language)
-#             content = {'output': output}
-#             return Response(content, status=status.HTTP_200_OK)
-#     return JsonResponse({'error': 'Unexpected error!'})
+#             context['page'] = 'text-translate'
+#         context['languages'] = UsedLanguages.objects.all()
+#         return context
 
 
 
 
-#### with googletrans
+### with googletrans
 @api_view(['POST'])
 def translate(request):
     if request.method == 'POST':
         
         translator = Translator()
         
-        input_text = json.loads(request.body.decode('utf-8'))['input']
-        from_language = json.loads(request.body.decode('utf-8'))['from']
-        to_language = json.loads(request.body.decode('utf-8'))['to']
+        input_text = request.POST.get('text')
+        from_language = request.POST.get('from')
+        to_language = request.POST.get('to')
         
         # print(f"Input: {input_text}")
         # print(f"From: {from_language}")
@@ -65,3 +69,21 @@ def translate(request):
                 content = {'error': f'Unexpected error! {e}'}
                 return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return JsonResponse({'error': 'Unexpected error!'})
+
+
+
+
+# text translate and send to html with class
+# class TextTranslateView(TemplateView):
+#     template_name = 'home.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         print(self.request.GET.get('page'))
+#         page = self.request.GET.get('page')
+#         if page:
+#             context['page'] = page
+#         else:
+#             context['page'] = 'text-translate'
+#         context['languages'] = UsedLanguages.objects.all()
+#         return context
