@@ -14,80 +14,32 @@
       nomodule
       src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
     ></script>
-    <title>Translator</title>
+    <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    <div class="container">
-      <h2>Translator</h2>
-      <div class="row selects">
-        <div class="select">
-          <select id="from-language">
-            {% for lang in languages %}
-                {% if forloop == 1 %}
-                    <option value="{{ lang.code }}" selected>{{ lang.name }}</option>
-                {% else %}
-                    <option value="{{ lang.code }}">{{ lang.name }}</option>
-                {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-        <ion-icon name="arrow-forward-outline"></ion-icon>
-        <div class="select">
-          <select id="to-language">
-            {% for lang in languages %}
-                {% if forloop == 1 %}
-                    <option value="{{ lang.code }}" >{{ lang.name }}</option>
-                {% else %}
-                    <option value="{{ lang.code }}" selected>{{ lang.name }}</option>
-                {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="form-control">
-        <div class="card">
-          <textarea class="input" placeholder="Matn kiriting..."></textarea>
-        </div>
-        <ion-icon name="arrow-forward-outline" class="rotate"></ion-icon>
-        <div class="card">
-          <textarea class="output" placeholder="Natija..." readonly></textarea>
-        </div>
-      </div>
+      <div class="container">
+    <div class="navbar">
       <div class="row">
-        <button class="submit wk-rp">
-          <p>Translate</p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            style="margin: auto; shape-rendering: auto"
-            width="40px"
-            height="40px"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="xMidYMid"
-          >
-            <path
-              fill="none"
-              stroke="#FFFFFF"
-              stroke-width="8"
-              stroke-dasharray="42.76482137044271 42.76482137044271"
-              d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z"
-              stroke-linecap="round"
-              style="transform: scale(0.8); transform-origin: 50px 50px"
-            >
-              <animate
-                attributeName="stroke-dashoffset"
-                repeatCount="indefinite"
-                dur="1s"
-                keyTimes="0;1"
-                values="0;256.58892822265625"
-              ></animate>
-            </path>
-          </svg>
-        </button>
+          <div class="logo">
+              <a href="{% url 'home' %}"><button  class="submit wk-rp">text translate </button></a>
+              <p>or</p>
+              <a href="{% url 'speak-translate' %}"><button  class="submit wk-rp">Speak Translate </button></a>
+     
+          </div>
+        </div>
       </div>
+      {% block content %}
+      {% endblock %}
+
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <script src="{% static 'home/js/ripples.js'%}"></script>
     <script src="{% static 'home/js/main.js'%}"></script>
+    
+    
+    {% block script %}{% endblock script %}
   </body>
 </html>
