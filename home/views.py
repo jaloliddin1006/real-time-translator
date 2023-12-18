@@ -6,10 +6,13 @@ from rest_framework import status
 from django.http import JsonResponse
 # import translators as ts
 from googletrans import Translator
-
+from .models import UsedLanguages
 
 def home(request):
-    return render(request, 'home.html')
+    context = {
+        "languages": UsedLanguages.objects.all()    
+    }
+    return render(request, 'home.html', context)
 
 
 #### with translators
@@ -32,10 +35,11 @@ def home(request):
 
 
 
-#### googletrans
+#### with googletrans
 @api_view(['POST'])
 def translate(request):
     if request.method == 'POST':
+        
         translator = Translator()
         
         input_text = json.loads(request.body.decode('utf-8'))['input']
@@ -46,15 +50,16 @@ def translate(request):
         # print(f"From: {from_language}")
         # print(f"To: {to_language}")
         
-        
         if input_text == '':
             content = {'error': 'Empty input!'}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
         else:
             try:
                 translation = translator.translate(text=input_text, src=from_language, dest=to_language)
-                # print(f"Translated Word: {translation}")
-                content = {'output': translation.text}
+                # print(f"Translated Word: {translation.text}")
+                content = {
+                    "output": translation.text}
+               
                 return Response(content, status=status.HTTP_200_OK)
             except Exception as e:
                 content = {'error': f'Unexpected error! {e}'}
