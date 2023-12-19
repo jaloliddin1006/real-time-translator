@@ -7,3 +7,8 @@ class UsedLanguages(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.code})"
+    
+    
+
+class Voice(models.Model):
+    audio_file = models.FileField(upload_to='audio/')
