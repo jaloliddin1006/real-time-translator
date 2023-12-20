@@ -33,6 +33,7 @@
 }
 {% endblock style %} 
 {% block content %}
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -40,7 +41,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="row selects" style="margin: 20px 0; align-items: left; "> <div >From</div>
+        <div class="row selects" style="margin: 20px 0; align-items: left; ">
+           <div >From</div>
             <div class="select" style="justify-content: left;"> 
               <select id="from-language">
                 {% for lang in languages %}
@@ -70,7 +72,8 @@
 
       <div style=" min-width: 400px;">
         <h3 id="yousaytext">👈 Ovozli xabarni tarjima qilish uchun </h3>
-        <img id="micro_gif" src="{% static 'home/img/micraphone.gif' %}" alt="Gif tasvir" style="display: none;  width: 400px;">
+        <img id="micro_gif" src="{% static 'home/img/micraphone.gif' %}" alt="Gif tasvir" 
+                                                  style="display: none;  width: 400px;">
       </div>
 
     </div>
