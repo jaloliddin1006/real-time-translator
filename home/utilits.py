@@ -8,12 +8,8 @@ def audio_file_to_text(audio_file_path, src_='en', dest_='ru'):
     soundfile.write(audio_file_path, data, samplerate, subtype='PCM_16')
 
     recognizer = sr.Recognizer()
-    try:
-        with sr.WavFile(audio_file_path) as source:
-            audio = recognizer.record(source)
-    except Exception as e:
-        print(f"Could not open audio file {audio_file_path} because {e}")
-        return None
+    with sr.WavFile(audio_file_path) as source:
+        audio = recognizer.record(source)
     try:
         text = recognizer.recognize_google(audio, language=src_)
         print("Transcription:", text)

@@ -95,13 +95,13 @@ def save_voice(request):
     print(audio_file)
     # print(request.FILES)
 
-    if from_lang and audio_file and to_lang:
-        # Assuming you already have a Voice model instance
-        voice_instance = Voice(audio_file=audio_file)
-        voice_instance.save()
-        file = "/home/ProLinux/Documents/GitHub/real-time-translator"+voice_instance.audio_file.url
-        print(file)
-        text = audio_file_to_text(file, from_lang, to_lang)
+    if from_lang and audio_file and to_lang: 
+        # Assuming you already have a Voice model instance 
+        voice_instance = Voice(audio_file=audio_file) 
+        voice_instance.save()     
+        file = "/home/ProLinux/Documents/GitHub/real-time-translator" + voice_instance.audio_file.url 
+        print(file) 
+        text = audio_file_to_text(file, from_lang, to_lang) 
 
         return JsonResponse({'success': f'Audio saved successfully: ', 'output': text.text})
 

@@ -1,4 +1,5 @@
 {% extends "home.html" %}
+{% load static %}
 {% block title %}Speak Translate{% endblock %}
 {% block style %} 
 
@@ -39,8 +40,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="row selects"> <p>From</p>
-            <div class="select"> 
+        <div class="row selects" style="margin: 20px 0; align-items: left; "> <div >From</div>
+            <div class="select" style="justify-content: left;"> 
               <select id="from-language">
                 {% for lang in languages %}
                       <option value="{{ lang.code }}" >{{ lang.name }}</option>
@@ -60,12 +61,22 @@
     </div>
 
   <div class="form-control">
-    <div class="card">
-        <button id="startStopBtn">Start/Stop Recording</button>
+    <div class="card form-control">
+
+      <div style="padding: 50px 0">
+        <button id="startStopBtn" style="margin: 10px 20px">Start/Stop Recording</button>
+        <div id="recordholder"></div>
+      </div>
+
+      <div style=" min-width: 400px;">
+        <h3 id="yousaytext">👈 Ovozli xabarni tarjima qilish uchun </h3>
+        <img id="micro_gif" src="{% static 'home/img/micraphone.gif' %}" alt="Gif tasvir" style="display: none;  width: 400px;">
+      </div>
+
     </div>
     <ion-icon name="arrow-forward-outline" class="rotate"></ion-icon>
     <div class="card">
-    <textarea class="output" placeholder="Natija..." readonly></textarea>
+      <textarea class="output" placeholder="Natija..." readonly></textarea>
     </div>
 
 {% endblock %}
@@ -79,6 +90,8 @@ let audioChunks = [];
 const startStopBtn = document.getElementById('startStopBtn');
 const languageOptions = document.getElementById('from-language');
 const tolanguageOptions = document.getElementById('to-language');
+const recordholder = document.getElementById('recordholder');
+const micro_gif = document.getElementById('micro_gif');
 
 startStopBtn.addEventListener('click', function() {
   isRecording = !isRecording;
@@ -92,18 +105,22 @@ startStopBtn.addEventListener('click', function() {
 });
 
 function startRecording() {
+    recordholder.innerHTML = "<h3>Recording...</h3>";
+    micro_gif.style.display = "block";
   navigator.mediaDevices.getUserMedia({ audio: true })
+
     .then(stream => {
       mediaRecorder = new MediaRecorder(stream);
       mediaRecorder.start();
       mediaRecorder.addEventListener('dataavailable', event => {
         audioChunks.push(event.data);
-        {% comment %} console.log(event.data, "mbm") {% endcomment %}
       });
     });
 }
 
 function stopRecording() {
+    recordholder.innerHTML = "";
+    micro_gif.style.display = "none";
   mediaRecorder.stop();
   mediaRecorder.addEventListener('stop', () => {
     const audioBlob = new Blob(audioChunks);
